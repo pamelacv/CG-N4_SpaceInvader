@@ -52,8 +52,8 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 	// informa qual objeto esta sendo mostrado na tela
 	protected int indexOBJ = 5;
 	// informa as dimens√µes da tela
-	protected int heigth = 612;// 256
-	protected int width = 586;// 256
+	// protected int heigth = 612;// 256
+	// protected int width = 586;// 256
 	protected int x = 0;
 	protected int y = 0;
 	// informa se a tela foi redimensionada
@@ -133,17 +133,6 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 		return loader[indexOBJ];
 	}
 
-	/**
-	 * Carrega os modelos na tela.
-	 */
-	public void loadModel(int pos) {
-		// indica qual o modelo que deve ser desenhado na tela
-		indexOBJ = pos;
-		// frame.getWorld().setIndex(pos);
-
-		glDrawable.display();
-	}
-
 	public GL getGL() {
 		return gl;
 	}
@@ -155,12 +144,15 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 		glut = new GLUT();
 		glDrawable.setGL(new DebugGL(gl));
 
-		reshape(glDrawable, 0, 0, frame.getWidthScreen(), frame.getHeightScreen());
-
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+		gl.glEnable(GL.GL_LIGHTING);
+		gl.glEnable(GL.GL_LIGHT0);
+
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glShadeModel(GL.GL_SMOOTH);
 
+		//RETIRAR TODOS ESSES OBJETOS DAQUI
 		// carrega os objetos
 		loader[0] = new OBJModel("data/soccerball", 1.5f, gl, true);
 		loader[1] = new OBJModel("data/al", 1.5f, gl, true);
@@ -169,25 +161,45 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 		loader[4] = new OBJModel("data/flowers", 1.5f, gl, true);
 		loader[5] = new OBJModel("data/untitled", 1.5f, gl, true);
 		loader[6] = new OBJModel("data/rose+vase", 1.5f, gl, true);
+	}
 
-		// altera flag informando que jah carregou tudo que precisava
-		// frame.getCommand().setFirstDisplay(1);
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+
+		if (gl != null) {
+			gl.glMatrixMode(GL.GL_PROJECTION);
+			gl.glLoadIdentity();
+			gl.glViewport(0, 0, width, height);
+			glu.gluPerspective(60, width / height, 0.1, 100);
+
+			// VisEdu
+			// primeiro par‚metro: FOV
+			// segundo par‚metro: largura da tela dividido pela altura
+			// terceiro par‚metro: near
+			// quarto par‚metro: far
+
+			// gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, new double[16], 1);
+			// gl.glMatrixMode(GL.GL_MODELVIEW);
+			// gl.glLoadIdentity();
+			//
+			// // atualiza vis√£o da camera
+			// glu.gluLookAt(lookat[0].getValue(), lookat[1].getValue(),
+			// lookat[2].getValue(), lookat[3].getValue(),
+			// lookat[4].getValue(), lookat[5].getValue(), lookat[6].getValue(),
+			// lookat[7].getValue(),
+			// lookat[8].getValue());
+			//
+			// gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, new double[16], 1);
+			// gl.glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+			// gl.glEnable(GL.GL_DEPTH_TEST);
+			// gl.glEnable(GL.GL_LIGHTING);
+			// gl.glEnable(GL.GL_LIGHT0);
+		}
 	}
 
 	public void display(GLAutoDrawable arg0) {
 		Cell aux[] = perspective, look[] = lookat, trans[] = translation, rot[] = rotation, sca[] = scale;
-		// if(displayAll) {
 
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
-		gl.glMatrixMode(GL.GL_PROJECTION);
-		gl.glLoadIdentity();
-
-		// VisEdu
-		// primeiro par‚metro: FOV
-		// segundo par‚metro: largura da tela dividido pela altura
-		// terceiro par‚metro: near
-		// quarto par‚metro: far
-		glu.gluPerspective(100, 1, 1, 100);
 
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
@@ -201,50 +213,22 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 			gl.glScalef(sca[0].getValue(), sca[1].getValue(), sca[2].getValue());
 			c = 2;
 			loader[indexOBJ].draw(gl);
-		}
 
-		gl.glFlush();
-	}
-
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-
-		if (gl != null) {
-			gl.glMatrixMode(GL.GL_PROJECTION);
-			gl.glLoadIdentity();
-			gl.glViewport(0, 0, width, height);
-			glu.gluPerspective(60, width / height, 0.1, 100);
-
-			gl.glGetDoublev(GL.GL_PROJECTION_MATRIX, new double[16], 1);
-			gl.glMatrixMode(GL.GL_MODELVIEW);
-			gl.glLoadIdentity();
-
-			// atualiza vis√£o da camera
-			glu.gluLookAt(lookat[0].getValue(), lookat[1].getValue(), lookat[2].getValue(), lookat[3].getValue(),
-					lookat[4].getValue(), lookat[5].getValue(), lookat[6].getValue(), lookat[7].getValue(),
-					lookat[8].getValue());
-
-			gl.glGetDoublev(GL.GL_MODELVIEW_MATRIX, new double[16], 1);
-			gl.glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
-			gl.glEnable(GL.GL_DEPTH_TEST);
-			gl.glEnable(GL.GL_LIGHTING);
-			gl.glEnable(GL.GL_LIGHT0);
+			gl.glFlush();
 		}
 	}
 
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
-		// throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	public void keyTyped(KeyEvent e) {
-		// throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	public void keyPressed(KeyEvent e) {
-
+		// Aqui v„o ficar os atalhos para mudar de c‚mera, atirar, mover e etc..
 	}
 
 	public void keyReleased(KeyEvent e) {
-		// throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -316,7 +300,7 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 		if (!first) {
 			redim = true;
 
-			reshape(glDrawable, x, y, width, heigth);
+			reshape(glDrawable, x, y, frame.getWidthScreen(), frame.getHeightScreen());
 			if (glDrawable != null)
 				glDrawable.display();
 		}

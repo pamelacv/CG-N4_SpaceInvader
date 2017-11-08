@@ -12,12 +12,12 @@ import javax.swing.WindowConstants;
 public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Game gameScreen = new Game(this);
 
 	private GLCanvas canvasScreen;
 
-	private int widthScreen =1000;
+	private int widthScreen = 1000;
 	private int heightScreen = 800;
 
 	public int getWidthScreen() {
@@ -50,7 +50,7 @@ public class Frame extends JFrame {
 		canvasScreen.addGLEventListener(gameScreen);
 		canvasScreen.addMouseListener(gameScreen);
 		canvasScreen.addMouseMotionListener(gameScreen);
-		canvasScreen.setBounds(0, 0,widthScreen, heightScreen);
+		canvasScreen.setBounds(0, 0, widthScreen, heightScreen);
 		add(canvasScreen);
 	}
 
