@@ -10,6 +10,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.media.opengl.DebugGL;
 import javax.media.opengl.GL;
@@ -17,6 +19,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 import model.Cell;
+import model.ObjetoGrafico;
 import object.OBJModel;
 
 public class Game implements GLEventListener, KeyListener, MouseWheelListener, MouseListener, MouseMotionListener {
@@ -33,6 +36,10 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 	public final int LIGHT = 9;
 	public final int GAP = 23;
 
+	private List<ObjetoGrafico> objetos = new ArrayList<>();
+
+	private int[][] matrixObjetosCena = { { 3, 3, 3 }, { 0, 0, 0 }, { 2, 2, 2 }, { 0, 1, 0 } };
+
 	// define as vari√°veis
 	protected GL gl;
 	protected GLU glu;
@@ -47,10 +54,12 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 	protected Frame frame;
 	// armazena um ponteiro para o popup deste componente
 	protected PopupMenu popup;
+
 	// armazena o modelo utilizado
-	protected OBJModel[] loader = new OBJModel[7];
+	// protected OBJModel[] loader = new OBJModel[7];
 	// informa qual objeto esta sendo mostrado na tela
-	protected int indexOBJ = 5;
+	// protected int indexOBJ = 5;
+
 	// informa as dimens√µes da tela
 	// protected int heigth = 612;// 256
 	// protected int width = 586;// 256
@@ -129,9 +138,9 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 	/**
 	 * Retorna o modelo.
 	 */
-	public OBJModel getModel() {
-		return loader[indexOBJ];
-	}
+	// public OBJModel getModel() {
+	// return loader[indexOBJ];
+	// }
 
 	public GL getGL() {
 		return gl;
@@ -152,15 +161,62 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glShadeModel(GL.GL_SMOOTH);
 
-		//RETIRAR TODOS ESSES OBJETOS DAQUI
+		// RETIRAR TODOS ESSES OBJETOS DAQUI
 		// carrega os objetos
-		loader[0] = new OBJModel("data/soccerball", 1.5f, gl, true);
-		loader[1] = new OBJModel("data/al", 1.5f, gl, true);
-		loader[2] = new OBJModel("data/f-16", 1.5f, gl, true);
-		loader[3] = new OBJModel("data/dolphins", 1.5f, gl, true);
-		loader[4] = new OBJModel("data/flowers", 1.5f, gl, true);
-		loader[5] = new OBJModel("data/untitled", 1.5f, gl, true);
-		loader[6] = new OBJModel("data/rose+vase", 1.5f, gl, true);
+
+		float translacaoCubo2[] = { 0.5f, 0.5f, 0.5f };
+		float escalaCubo2[] = { 1.0f, 1.0f, 1.0f };
+
+		ObjetoGrafico alien1 = new ObjetoGrafico();
+		alien1.setObjModelParser(new OBJModel("data/alien1", 1.5f, gl, true));
+		alien1.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+		alien1.setTranslate(new float[] { 0.5f, 0.5f, 0.5f });
+		alien1.setMatrixPosition(new int[] {1,1});
+		objetos.add(alien1);
+		
+		ObjetoGrafico alien2 = new ObjetoGrafico();
+		alien2.setObjModelParser(new OBJModel("data/alien2", 1.5f, gl, true));
+		alien2.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+		alien2.setTranslate(new float[] { 2.5f, 0.5f, 0.5f });
+		alien2.setMatrixPosition(new int[] {1,2});
+		objetos.add(alien2);
+		
+		ObjetoGrafico alien3 = new ObjetoGrafico();
+		alien3.setObjModelParser(new OBJModel("data/alien3", 1.5f, gl, true));
+		alien3.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+		alien3.setTranslate(new float[] { 4.5f, 0.5f, 0.5f });
+		alien3.setMatrixPosition(new int[] {1,3});
+		objetos.add(alien3);
+		
+
+//		ObjetoGrafico bloco1 = new ObjetoGrafico();
+//		bloco1.setObjModelParser(new OBJModel("data/untitled", 1.5f, gl, true));
+//		bloco1.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+//		bloco1.setTranslate(new float[] { 1.5f, 0.5f, 3.5f });
+//		bloco1.setMatrixPosition(new int[] {3,2});
+//		objetos.add(bloco1);
+//		
+//		ObjetoGrafico bloco2 = new ObjetoGrafico();
+//		bloco2.setObjModelParser(new OBJModel("data/untitled", 1.5f, gl, true));
+//		bloco2.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+//		bloco2.setTranslate(new float[] { 3.5f, 0.5f, 3.5f });
+//		bloco2.setMatrixPosition(new int[] {3,2});
+//		objetos.add(bloco2);
+		
+		ObjetoGrafico nave = new ObjetoGrafico();
+		nave.setObjModelParser(new OBJModel("data/nave", 1.5f, gl, true));
+		nave.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+		nave.setTranslate(new float[] { 2.5f, 0.5f, 4.5f });
+		nave.setMatrixPosition(new int[] {3,2});
+		objetos.add(nave);
+		
+		// loader[0] = new OBJModel("data/soccerball", 1.5f, gl, true);
+		// loader[1] = new OBJModel("data/al", 1.5f, gl, true);
+		// loader[2] = new OBJModel("data/f-16", 1.5f, gl, true);
+		// loader[3] = new OBJModel("data/dolphins", 1.5f, gl, true);
+		// loader[4] = new OBJModel("data/flowers", 1.5f, gl, true);
+		// loader[5] = new OBJModel("data/untitled", 1.5f, gl, true);
+		// loader[6] = new OBJModel("data/rose+vase", 1.5f, gl, true);
 	}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -169,7 +225,7 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 			gl.glMatrixMode(GL.GL_PROJECTION);
 			gl.glLoadIdentity();
 			gl.glViewport(0, 0, width, height);
-			glu.gluPerspective(60, width / height, 0.1, 100);
+			glu.gluPerspective(45, width / height, 0.1, 100);
 
 			// VisEdu
 			// primeiro par‚metro: FOV
@@ -199,25 +255,143 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 	public void display(GLAutoDrawable arg0) {
 		Cell aux[] = perspective, look[] = lookat, trans[] = translation, rot[] = rotation, sca[] = scale;
 
+		// double xEye = 0.0;
+		// double yEye = 40.0;
+		// double zEye = 10.0;
+		// double xCenter = 0.0;
+		// double yCenter = -20.0;
+		// double zCenter = 0.0;
+
+		desenhaGrade();
+
+		// cÛdigo antes
+		// gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+		//
+		// gl.glMatrixMode(GL.GL_MODELVIEW);
+		// gl.glLoadIdentity();
+		//
+		// glu.gluLookAt(0, 5, 2, 0, 0, 0, 0, 1, 0);
+		
+		//gl.glPushMatrix();
+
+		for (ObjetoGrafico obj : objetos) {
+			
+			gl.glPushMatrix();
+			
+			gl.glScalef(obj.getScale()[0], obj.getScale()[1], obj.getScale()[2]);
+			gl.glTranslated(obj.getTranslate()[0], obj.getTranslate()[1], obj.getTranslate()[2]);
+			obj.getObjModelParser().draw(gl);
+			
+			gl.glPopMatrix();
+		}
+		
+		gl.glFlush();
+	}
+
+	private void desenhaGrade() {
+		double xEye = 0.0;
+		double yEye = 40.0;
+		double zEye = 20.0;
+		double xCenter = 0.0;
+		double yCenter = 0.0;
+		double zCenter = 0.0;
+
 		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
 		gl.glMatrixMode(GL.GL_MODELVIEW);
 		gl.glLoadIdentity();
+		glu.gluLookAt(xEye, yEye, zEye, xCenter, yCenter, zCenter, 0.0f, 1.0f, 0.0f);
 
-		glu.gluLookAt(0, 5, 2, 0, 0, 0, 0, 1, 0);
+		// eixo X - Chao
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glBegin(GL.GL_LINES);
+		gl.glVertex3f(0.0f, 0.0f, 0.0f);
+		gl.glVertex3f(10.0f, 0.0f, 0.0f);
+		gl.glEnd();
 
-		int c = -2;
-		for (int i = 0; i < 3; i++) {
-			gl.glTranslatef(trans[0].getValue() + c, trans[1].getValue(), trans[2].getValue());
-			gl.glRotatef(rot[0].getValue(), rot[1].getValue(), rot[2].getValue(), rot[3].getValue());
-			gl.glScalef(sca[0].getValue(), sca[1].getValue(), sca[2].getValue());
-			c = 2;
-			loader[indexOBJ].draw(gl);
+		// eixo X - Teto
+		gl.glColor3f(0.0f, 0.0f, 0.0f);
+		gl.glBegin(GL.GL_LINES);
+		gl.glVertex3f(0.0f, 10.0f, 0.0f);
+		gl.glVertex3f(10.0f, 10.0f, 0.0f);
+		gl.glEnd();
 
-			gl.glFlush();
+		// eixo Y - Chao
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glBegin(GL.GL_LINES);
+		gl.glVertex3f(0.0f, 0.0f, 0.0f);
+		gl.glVertex3f(0.0f, 10.0f, 0.0f);
+		gl.glEnd();
+
+		// eixo Z - Chao
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glBegin(GL.GL_LINES);
+		gl.glVertex3f(0.0f, 0.0f, 0.0f);
+		gl.glVertex3f(0.0f, 0.0f, 10.0f);
+		gl.glEnd();
+
+		// eixo Z - Teto
+		gl.glColor3f(0.0f, 0.0f, 0.0f);
+		gl.glBegin(GL.GL_LINES);
+		gl.glVertex3f(0.0f, 10.0f, 0.0f);
+		gl.glVertex3f(0.0f, 10.0f, 10.0f);
+		gl.glEnd();
+
+		for (float f = (float) 1; f <= 10.0; f++) // Linhas Chao Vertical
+		{
+			gl.glColor3f(0.0f, 1.0f, 0.0f);
+			gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(f, 0.0f, 10.0f);
+			gl.glVertex3f(f, 0.0f, 0.0f);
+			gl.glEnd();
+		}
+
+		for (float f = (float) 1.0; f <= 10.0; f++) // Linhas Chao Horizontal
+		{
+			gl.glColor3f(0.0f, 1.0f, 0.0f);
+			gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(0.0f, 0.0f, f);
+			gl.glVertex3f(10.0f, 0.0f, f);
+			gl.glEnd();
+		}
+
+		for (float f = (float) 1.0; f <= 10.0; f++) // Linhas Parede Esquerda - Vertical
+		{
+			gl.glColor3f(1.0f, 0.0f, 0.0f);
+			gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(0.0f, 0.0f, f);
+			gl.glVertex3f(0.0f, 10.0f, f);
+			gl.glEnd();
+		}
+
+		for (float f = (float) 1.0; f <= 10.0; f++) // Linhas Parede Esquerda - Horizontal
+		{
+			gl.glColor3f(1.0f, 0.0f, 0.0f);
+			gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(0.0f, f, 0.0f);
+			gl.glVertex3f(0.0f, f, 10.0f);
+			gl.glEnd();
+		}
+
+		for (float f = (float) 1.0; f <= 10.0; f++) // Linhas Parede Direita - Vertical
+		{
+			gl.glColor3f(0.0f, 0.0f, 1.0f);
+			gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(f, 0.0f, 0.0f);
+			gl.glVertex3f(f, 10.0f, 0.0f);
+			gl.glEnd();
+		}
+
+		for (float f = (float) 1.0; f <= 10.0; f++) // Linhas Parede Direita - Vertical
+		{
+			gl.glColor3f(0.0f, 0.0f, 1.0f);
+			gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(0.0f, f, 0.0f);
+			gl.glVertex3f(10.0f, f, 0.0f);
+			gl.glEnd();
 		}
 	}
-
+	
 	public void displayChanged(GLAutoDrawable arg0, boolean arg1, boolean arg2) {
 	}
 
@@ -279,11 +453,11 @@ public class Game implements GLEventListener, KeyListener, MouseWheelListener, M
 	/**
 	 * Atribui o endere√ßo do modelo a ser redesenhado na tela.
 	 */
-	public void setIndex(int index) {
-		indexOBJ = index;
-
-		glDrawable.display();
-	}
+	// public void setIndex(int index) {
+	// indexOBJ = index;
+	//
+	// glDrawable.display();
+	// }
 
 	/**
 	 * Ativa display dos canvas.

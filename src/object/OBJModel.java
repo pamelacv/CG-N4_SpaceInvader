@@ -49,7 +49,7 @@ public class OBJModel {
         if (showDetails) {
             reportOnModel();
         }
-    } // end of OBJModel()
+    }
 
     private void initModelData(String modelNm) {
         verts = new ArrayList<Tuple3>();
@@ -59,7 +59,7 @@ public class OBJModel {
         faces = new Faces(verts, normals, texCoords);
         faceMats = new FaceMaterials();
         modelDims = new ModelDimensions();
-    } // end of initModelData()
+    }
 
     private void loadModel(String modelNm) {
         String fnm = modelNm + ".obj";
@@ -74,7 +74,7 @@ public class OBJModel {
             System.out.println(e.getMessage());
             System.exit(1);
         }
-    } // end of loadModel()
+    } 
 
     private void readModel(BufferedReader br) {
         boolean isLoaded = true; // hope things will go okay
