@@ -39,25 +39,25 @@ public class Material {
     } // end of Material()
 
     public void showMaterial() {
-        System.out.println(name);
-        if (ka != null) {
-            System.out.println("  Ka: " + ka.toString());
-        }
-        if (kd != null) {
-            System.out.println("  Kd: " + kd.toString());
-        }
-        if (ks != null) {
-            System.out.println("  Ks: " + ks.toString());
-        }
-        if (ns != 0.0f) {
-            System.out.println("  Ns: " + ns);
-        }
-        if (d != 1.0f) {
-            System.out.println("  d: " + d);
-        }
-        if (texFnm != null) {
-            System.out.println("  Texture file: " + texFnm);
-        }
+//        System.out.println(name);
+//        if (ka != null) {
+//            System.out.println("  Ka: " + ka.toString());
+//        }
+//        if (kd != null) {
+//            System.out.println("  Kd: " + kd.toString());
+//        }
+//        if (ks != null) {
+//            System.out.println("  Ks: " + ks.toString());
+//        }
+//        if (ns != 0.0f) {
+//            System.out.println("  Ns: " + ns);
+//        }
+//        if (d != 1.0f) {
+//            System.out.println("  d: " + d);
+//        }
+//        if (texFnm != null) {
+//            System.out.println("  Texture file: " + texFnm);
+//        }
     } // end of showMaterial()
 
     public boolean hasName(String nm) {
@@ -107,7 +107,7 @@ public class Material {
 
     public void setMaterialColors(GL gl) {
 
-        System.out.println(" --- SET MATERIAL COLOR ---");
+        //System.out.println(" --- SET MATERIAL COLOR ---");
         if (ka != null) {
             // ambient color
             float[] colorKa = {ka.getX(), ka.getY(), ka.getZ(), 1.0f};

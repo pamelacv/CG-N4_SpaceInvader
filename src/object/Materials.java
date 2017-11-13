@@ -29,7 +29,7 @@ public class Materials {
 
         String mfnm = "data/" + MODEL_DIR + mtlFnm;
         try {
-            System.out.println("Loading material from " + mfnm);
+            //System.out.println("Loading material from " + mfnm);
             BufferedReader br = new BufferedReader(new FileReader(mfnm));
             readMaterials(br);
             br.close();
@@ -82,7 +82,7 @@ public class Materials {
                     // comment line
                     continue;
                 } else {
-                    System.out.println("Ignoring MTL line: " + line);
+                    //System.out.println("Ignoring MTL line: " + line);
                 }
             }
             materials.add(currMaterial);
@@ -108,7 +108,7 @@ public class Materials {
     } // end of readTuple3()
 
     public void showMaterials() {
-        System.out.println("No. of materials: " + materials.size());
+        //System.out.println("No. of materials: " + materials.size());
         Material m;
         for (int i = 0; i < materials.size(); i++) {
             m = materials.get(i);

@@ -64,7 +64,7 @@ public class OBJModel {
     private void loadModel(String modelNm) {
         String fnm = modelNm + ".obj";
         try {
-            System.out.println("Loading model from " + fnm + " ...");
+            //System.out.println("Loading model from " + fnm + " ...");
 
             FileInputStream fis_model = new FileInputStream(fnm);
             BufferedReader br_model = new BufferedReader(new InputStreamReader(fis_model));
@@ -122,7 +122,7 @@ public class OBJModel {
                         // comment line
                         continue;
                     } else {
-                        System.out.println("Ignoring line " + lineNum + " : " + line);
+                        //System.out.println("Ignoring line " + lineNum + " : " + line);
                     }
                 }
             }
@@ -132,7 +132,7 @@ public class OBJModel {
         }
 
         if (!isLoaded) {
-            System.out.println("Error loading model");
+            //System.out.println("Error loading model");
             System.exit(1);
         }
     } // end of readModel()
@@ -170,7 +170,7 @@ public class OBJModel {
     private boolean addTexCoord(String line, boolean isFirstTC) {
         if (isFirstTC) {
             hasTCs3D = checkTC3D(line);
-            System.out.println("Using 3D tex coords: " + hasTCs3D);
+            //System.out.println("Using 3D tex coords: " + hasTCs3D);
         }
 
         Tuple3 texCoord = readTCTuple(line);
@@ -225,7 +225,7 @@ public class OBJModel {
         if (largest != 0.0f) {
             scaleFactor = (maxSize / largest);
         }
-        System.out.println("Scale factor: " + scaleFactor);
+       // System.out.println("Scale factor: " + scaleFactor);
 
         // modify the model's vertices
         Tuple3 vert;
@@ -268,10 +268,10 @@ public class OBJModel {
     }
 
     private void reportOnModel() {
-        System.out.println("No. of vertices: " + verts.size());
-        System.out.println("No. of normal coords: " + normals.size());
-        System.out.println("No. of tex coords: " + texCoords.size());
-        System.out.println("No. of faces: " + faces.getNumFaces());
+//        System.out.println("No. of vertices: " + verts.size());
+//        System.out.println("No. of normal coords: " + normals.size());
+//        System.out.println("No. of tex coords: " + texCoords.size());
+//        System.out.println("No. of faces: " + faces.getNumFaces());
 
         modelDims.reportDimensions();
         // dimensions of model (before centering and scaling)

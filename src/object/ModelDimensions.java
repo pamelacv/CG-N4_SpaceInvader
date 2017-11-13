@@ -101,13 +101,13 @@ public class ModelDimensions {
     public void reportDimensions() {
         Tuple3 center = getCenter();
 
-        System.out.println("x Coords: " + df.format(leftPt) + " to " + df.format(rightPt));
-        System.out.println("  Mid: " + df.format(center.getX()) + "; Width: " + df.format(getWidth()));
-
-        System.out.println("y Coords: " + df.format(bottomPt) + " to " + df.format(topPt));
-        System.out.println("  Mid: " + df.format(center.getY()) + "; Height: " + df.format(getHeight()));
-
-        System.out.println("z Coords: " + df.format(nearPt) + " to " + df.format(farPt));
-        System.out.println("  Mid: " + df.format(center.getZ()) + "; Depth: " + df.format(getDepth()));
+//        System.out.println("x Coords: " + df.format(leftPt) + " to " + df.format(rightPt));
+//        System.out.println("  Mid: " + df.format(center.getX()) + "; Width: " + df.format(getWidth()));
+//
+//        System.out.println("y Coords: " + df.format(bottomPt) + " to " + df.format(topPt));
+//        System.out.println("  Mid: " + df.format(center.getY()) + "; Height: " + df.format(getHeight()));
+//
+//        System.out.println("z Coords: " + df.format(nearPt) + " to " + df.format(farPt));
+//        System.out.println("  Mid: " + df.format(center.getZ()) + "; Depth: " + df.format(getDepth()));
     } // end of reportDimensions()
 } // end of inner class ModelDimensions

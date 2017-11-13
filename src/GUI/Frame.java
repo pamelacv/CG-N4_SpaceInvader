@@ -13,8 +13,6 @@ public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private Game gameScreen = new Game(this);
-
 	private GLCanvas canvasScreen;
 
 	private int widthScreen = 1000;
@@ -46,16 +44,17 @@ public class Frame extends JFrame {
 		c.setGreenBits(8);
 		c.setAlphaBits(8);
 
+		Game gameScreen = Game.getInstance(this);
+		
 		canvasScreen = new GLCanvas(c);
-		canvasScreen.addGLEventListener(gameScreen);
-		canvasScreen.addMouseListener(gameScreen);
-		canvasScreen.addMouseMotionListener(gameScreen);
 		canvasScreen.setBounds(0, 0, widthScreen, heightScreen);
 		add(canvasScreen);
-	}
-
-	public Game getScreen() {
-		return gameScreen;
+		
+		canvasScreen.addGLEventListener(gameScreen);
+		canvasScreen.addKeyListener(gameScreen);
+		canvasScreen.addMouseListener(gameScreen);
+		canvasScreen.addMouseMotionListener(gameScreen);
+		canvasScreen.requestFocus();
 	}
 
 	public static void main(String[] args) {

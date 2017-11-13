@@ -45,7 +45,7 @@ public class FaceMaterials {
     }
 
     public void showUsedMaterials() {
-        System.out.println("No. of materials used: " + matCount.size());
+        //System.out.println("No. of materials used: " + matCount.size());
 
         // build an iterator of material names
         Set<String> keys = matCount.keySet();
@@ -58,8 +58,8 @@ public class FaceMaterials {
             matName = iter.next();
             count = matCount.get(matName);
 
-            System.out.print(matName + ": " + count);
-            System.out.println();
+           // System.out.print(matName + ": " + count);
+           // System.out.println();
         }
     } // end of showUsedMaterials()
 } // end of FaceMaterials class
