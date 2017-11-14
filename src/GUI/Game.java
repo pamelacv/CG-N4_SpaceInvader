@@ -198,8 +198,8 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		// desenhaGrade();
 		
 		//O que falta:
-		//1- Atualiza quando o alien é morto
-		//2- Arrumar o tiro (está se movendo com a nave e quando há muitos tiros de uma vez ele buga)
+		//1- Atualiza quando o alien é morto -ok
+		//2- Arrumar o tiro (está se movendo com a nave e quando há muitos tiros de uma vez ele buga) - pra solucionar talvez fazer uma lista de tiros
 		//3- Ajustar a camera
 		//4- Movimento dos aliens
 		//5- Criação dos blocos
@@ -242,6 +242,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 					atirou = false;
 					tiroInicial.setVisible(false);
+					matrixObjetosCena[tiroInicial.getMatrixPosition()[0]][tiroInicial.getMatrixPosition()[1]] = 0;
 
 					// Thread.sleep(20L);
 					for (ObjetoGrafico obj : objetos) {
