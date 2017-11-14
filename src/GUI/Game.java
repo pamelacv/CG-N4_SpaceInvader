@@ -21,16 +21,6 @@ import object.OBJModel;
 public class Game implements GLEventListener, KeyListener, MouseListener, MouseMotionListener {
 	// define as constantes
 	public final int PERSPECTIVE = 0;
-	// public final int FRUSTUM = 1;
-	// public final int ORTHO = 2;
-	// public final int LOOKAT = 3;
-	// public final int TRANSFORMATION = 4;
-	// public final int PROJECTION = 5;
-	// public final int TRANSLATION = 6;
-	// public final int ROTATION = 7;
-	// public final int SCALE = 8;
-	// public final int LIGHT = 9;
-	// public final int GAP = 23;
 
 	private static Game game = null;
 
@@ -65,6 +55,13 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	private double yCenter = 0.0;
 	private double zCenter = 0.0;
 
+//	private double xEye = 3.25;
+//	private double yEye = 5.75;
+//	private double zEye = 9.0;
+//	private double xCenter = 3.25;
+//	private double yCenter = 0.0;
+//	private double zCenter = 5.75;
+	
 	// informa em que modo a camera esta
 	protected int mode = PERSPECTIVE;
 
@@ -109,17 +106,17 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 		// carrega os objetos
 
-		for (int i = 0; i <= 6; i++) {
+		for (int i = 0; i < 6; i++) {
 
-			ObjetoGrafico alien1 = new ObjetoGrafico();
-			alien1.setObjModelParser(new OBJModel("data/alien1", 1.0f, gl, true));
-			alien1.setScale(new float[] { 1.0f, 1.0f, 1.0f });
-			alien1.setTranslate(new float[] { 0.5f + i, 0.5f, 0.5f });
-			alien1.setMatrixPosition(new int[] { 0, i });
-			objetos.add(alien1);
+			ObjetoGrafico alien3 = new ObjetoGrafico();
+			alien3.setObjModelParser(new OBJModel("data/alien3", 1.0f, gl, true));
+			alien3.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+			alien3.setTranslate(new float[] { 0.5f + i, 0.5f, 0.5f });
+			alien3.setMatrixPosition(new int[] { 0, i });
+			objetos.add(alien3);
 		}
-
-		for (int i = 0; i <= 6; i++) {
+		
+		for (int i = 0; i < 6; i++) {
 
 			ObjetoGrafico alien2 = new ObjetoGrafico();
 			alien2.setObjModelParser(new OBJModel("data/alien2", 1.0f, gl, true));
@@ -127,17 +124,16 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			alien2.setTranslate(new float[] { 0.5f + i, 0.5f, 1.5f });
 			alien2.setMatrixPosition(new int[] { 1, i });
 			objetos.add(alien2);
-
 		}
+		
+		for (int i = 0; i < 6; i++) {
 
-		for (int i = 0; i <= 6; i++) {
-
-			ObjetoGrafico alien3 = new ObjetoGrafico();
-			alien3.setObjModelParser(new OBJModel("data/alien3", 1.0f, gl, true));
-			alien3.setScale(new float[] { 1.0f, 1.0f, 1.0f });
-			alien3.setTranslate(new float[] { 0.5f + i, 0.5f, 2.5f });
-			alien3.setMatrixPosition(new int[] { 2, i });
-			objetos.add(alien3);
+			ObjetoGrafico alien1 = new ObjetoGrafico();
+			alien1.setObjModelParser(new OBJModel("data/alien1", 1.0f, gl, true));
+			alien1.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+			alien1.setTranslate(new float[] { 0.5f + i, 0.5f, 2.5f });
+			alien1.setMatrixPosition(new int[] { 2, i });
+			objetos.add(alien1);
 		}
 
 		// ObjetoGrafico bloco1 = new ObjetoGrafico();
@@ -200,6 +196,17 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public void display(GLAutoDrawable arg0) {
 		// desenhaGrade();
+		
+		//O que falta:
+		//1- Atualiza quando o alien é morto
+		//2- Arrumar o tiro (está se movendo com a nave e quando há muitos tiros de uma vez ele buga)
+		//3- Ajustar a camera
+		//4- Movimento dos aliens
+		//5- Criação dos blocos
+		//6- Tiro dos aliens
+		//7- Destrução dos blocos
+		//8- Win: quando a nave elimina todos os aliens (não tiver mais 3 na matriz de objetos) ganhou!!!!
+		//9- Game over: quando o alien atingir a nave com um tiro é game over
 
 		try {
 			//System.out.println("Entrou aqui: " + contadorTeste);
@@ -211,6 +218,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			gl.glLoadIdentity();
 			glu.gluLookAt(xEye, yEye, zEye, xCenter, yCenter, zCenter, 0.0f, 1.0f, 0.0f);
 
+			//Busca todos os objetos e imprime na tela 
 			for (ObjetoGrafico obj : objetos) {
 
 				if (obj.isVisible()) {
