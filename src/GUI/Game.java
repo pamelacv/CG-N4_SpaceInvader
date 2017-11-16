@@ -62,10 +62,10 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 //	 private double yCenter = 0.0;
 //	 private double zCenter = 5.75;
 	
-	 private double xEye = 3.25;
+	 private double xEye = 4;
 	 private double yEye = 5.75;
 	 private double zEye = 15.0;
-	 private double xCenter = 3.25;
+	 private double xCenter = 4;
 	 private double yCenter = 0.0;
 	 private double zCenter = 5.75;
 
