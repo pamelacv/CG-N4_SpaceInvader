@@ -221,7 +221,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		//-ok
 		
 		//3.1. Ajustar os aliens para ficarem em pé. Obs.: Olhar no blender ou rotacionar o objeto
-		//-
+		//-ok
 		
 		// 4- Movimento dos aliens
 		// 5- Criação dos blocos
