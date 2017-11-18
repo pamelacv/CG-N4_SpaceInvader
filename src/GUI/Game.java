@@ -46,28 +46,28 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			{ 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 },
 			{ 9, 0, 2, 0, 2, 0, 2, 9 }, { 9, 1, 0, 0, 0, 0, 0, 9 } };
 
-	//Original
-//	private double xEye = 0.0;
-//	private double yEye = 40.0;
-//	private double zEye = 20.0;
-//	private double xCenter = 0.0;
-//	private double yCenter = 0.0;
-//	private double zCenter = 0.0;
+	// Original
+	// private double xEye = 0.0;
+	// private double yEye = 40.0;
+	// private double zEye = 20.0;
+	// private double xCenter = 0.0;
+	// private double yCenter = 0.0;
+	// private double zCenter = 0.0;
 
-	//Teste 1
-//	 private double xEye = 3.25;
-//	 private double yEye = 5.75;
-//	 private double zEye = 9.0;
-//	 private double xCenter = 3.25;
-//	 private double yCenter = 0.0;
-//	 private double zCenter = 5.75;
-	
-	 private double xEye = 4;
-	 private double yEye = 5.75;
-	 private double zEye = 15.0;
-	 private double xCenter = 4;
-	 private double yCenter = 0.0;
-	 private double zCenter = 5.75;
+	// Teste 1
+	// private double xEye = 3.25;
+	// private double yEye = 5.75;
+	// private double zEye = 9.0;
+	// private double xCenter = 3.25;
+	// private double yCenter = 0.0;
+	// private double zCenter = 5.75;
+
+	private double xEye = 4;
+	private double yEye = 8;
+	private double zEye = 15.0;
+	private double xCenter = 4;
+	private double yCenter = 0.0;
+	private double zCenter = 5.75;
 
 	// informa em que modo a camera esta
 	protected int mode = PERSPECTIVE;
@@ -215,19 +215,20 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 		// 2.1. Definir limite de tela. Obs.: Podemos colocar na matriz paredes com
 		// numeros diferentes e quando chegar nas paredes
-		//-ok
+		// -ok
 
 		// 3- Ajustar a camera
-		//-ok
-		
-		//3.1. Ajustar os aliens para ficarem em pé. Obs.: Olhar no blender ou rotacionar o objeto
-		//-ok
-		
+		// -ok
+
+		// 3.1. Ajustar os aliens para ficarem em pé. Obs.: Olhar no blender ou
+		// rotacionar o objeto
+		// -ok
+
 		// 4- Movimento dos aliens
 		// 5- Criação dos blocos
 		// 6- Tiro dos aliens
 		// 7- Destrução dos blocos
-		
+
 		// 8- Win: quando a nave elimina todos os aliens (não tiver mais 3 na matriz de
 		// objetos) ganhou!!!!
 		// 9- Game over: quando o alien atingir a nave com um tiro é game over
@@ -259,16 +260,16 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			if (tiros.size() > 0) {
 
 				for (Tiro tiro : tiros) {
-					
+
 					if (matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0] - 1][tiro.getObjeto()
 							.getMatrixPosition()[1]] != 9) {
-						
+
 						tiro.setContadorTiros(tiro.getContadorTiros() + 1);
 						tiro.setLinhaProgressoMatriz(tiro.getLinhaProgressoMatriz() - 1);
 
 						tiro.getObjeto().setMatrixPosition(
 								new int[] { tiro.getLinhaProgressoMatriz(), tiro.getObjeto().getMatrixPosition()[1] });
-						
+
 						if (matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0]][tiro.getObjeto()
 								.getMatrixPosition()[1]] == 3) {
 
