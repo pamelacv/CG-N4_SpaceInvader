@@ -26,11 +26,17 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	private static Game game = null;
 
-	// define as vari√°veis
+	// define as variaveis
 	protected GL gl;
 	protected GLU glu;
 	protected GLUT glut;
 	protected GLAutoDrawable glDrawable;
+
+	
+	//constante qtd aliens
+	private final int qtdAliens = 6;
+	
+	//
 
 	// armazena um ponteiro para o frame principal
 	protected Frame frame;
@@ -40,11 +46,13 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	private List<Tiro> tiros = new LinkedList<>();
 
-	private int[][] matrixObjetosCena = { { 9, 9, 9, 9, 9, 9, 9, 9 }, { 9, 3, 3, 3, 3, 3, 3, 9 },
-			{ 9, 3, 3, 3, 3, 3, 3, 9 }, { 9, 3, 3, 3, 3, 3, 3, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 },
-			{ 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 },
-			{ 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 },
-			{ 9, 0, 2, 0, 2, 0, 2, 9 }, { 9, 1, 0, 0, 0, 0, 0, 9 } };
+	private int[][] matrixObjetosCena = { 
+			 { 9, 9, 9, 9, 9, 9, 9, 9 }, { 9, 3, 3, 3, 3, 3, 3, 9 }, { 9, 3, 3, 3, 3, 3, 3, 9 },
+			 { 9, 3, 3, 3, 3, 3, 3, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, 
+			 { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, 
+			 { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 0, 0, 0, 0, 0, 9 }, { 9, 0, 2, 0, 2, 0, 2, 9 }, 
+			 							 { 9, 1, 0, 0, 0, 0, 0, 9 } 
+			};
 
 	// Original
 	// private double xEye = 0.0;
@@ -78,6 +86,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	protected boolean redim = false;
 
 	Thread updateThread;
+	Thread updateThread2;
 
 	private Game(Frame frame) {
 		this.frame = frame;
@@ -93,6 +102,26 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 	public GL getGL() {
 		return gl;
+	}
+	
+	private void criaAliens(int matrixPosition, String objName, float positionZ) {
+		for (int i = 1; i <= qtdAliens; i++) {
+			ObjetoGrafico alien = new ObjetoGrafico();
+			alien.setObjModelParser(new OBJModel(objName, 1.0f, gl, true));
+			alien.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+			alien.setTranslate(new float[] { 0.5f + i, 0.5f, positionZ });
+			alien.setMatrixPosition(new int[] { matrixPosition, i });
+			objetos.add(alien);	
+		}
+	}	
+	
+	private void criaNave() {
+		ObjetoGrafico nave = new ObjetoGrafico();
+		nave.setObjModelParser(new OBJModel("data/nave", 1.0f, gl, true));
+		nave.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+		nave.setTranslate(new float[] { 1.5f, 0.5f, 11.5f });
+		nave.setMatrixPosition(new int[] { 12, 1 });
+		objetos.add(nave);		
 	}
 
 	public void init(GLAutoDrawable drawable) {
@@ -111,37 +140,14 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glShadeModel(GL.GL_SMOOTH);
 
-		// carrega os objetos
-
-		for (int i = 1; i <= 6; i++) {
-
-			ObjetoGrafico alien3 = new ObjetoGrafico();
-			alien3.setObjModelParser(new OBJModel("data/alien3", 1.0f, gl, true));
-			alien3.setScale(new float[] { 1.0f, 1.0f, 1.0f });
-			alien3.setTranslate(new float[] { 0.5f + i, 0.5f, 0.5f });
-			alien3.setMatrixPosition(new int[] { 1, i });
-			objetos.add(alien3);
-		}
-
-		for (int i = 1; i <= 6; i++) {
-
-			ObjetoGrafico alien2 = new ObjetoGrafico();
-			alien2.setObjModelParser(new OBJModel("data/alien2", 1.0f, gl, true));
-			alien2.setScale(new float[] { 1.0f, 1.0f, 1.0f });
-			alien2.setTranslate(new float[] { 0.5f + i, 0.5f, 1.5f });
-			alien2.setMatrixPosition(new int[] { 2, i });
-			objetos.add(alien2);
-		}
-
-		for (int i = 1; i <= 6; i++) {
-
-			ObjetoGrafico alien1 = new ObjetoGrafico();
-			alien1.setObjModelParser(new OBJModel("data/alien1", 1.0f, gl, true));
-			alien1.setScale(new float[] { 1.0f, 1.0f, 1.0f });
-			alien1.setTranslate(new float[] { 0.5f + i, 0.5f, 2.5f });
-			alien1.setMatrixPosition(new int[] { 3, i });
-			objetos.add(alien1);
-		}
+		//carrega os objetos - cria os aliens
+		float positionZ = 0.5f;
+		int posAlien = 3;
+		for (int i = 1; i<=3; i++) {
+			criaAliens(i, "data/alien"+posAlien, positionZ);
+			posAlien--;
+			positionZ++;
+		}		
 
 		// ObjetoGrafico bloco1 = new ObjetoGrafico();
 		// bloco1.setObjModelParser(new OBJModel("data/untitled", 1.5f, gl, true));
@@ -157,12 +163,8 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		// bloco2.setMatrixPosition(new int[] {3,2});
 		// objetos.add(bloco2);
 
-		ObjetoGrafico nave = new ObjetoGrafico();
-		nave.setObjModelParser(new OBJModel("data/nave", 1.0f, gl, true));
-		nave.setScale(new float[] { 1.0f, 1.0f, 1.0f });
-		nave.setTranslate(new float[] { 1.5f, 0.5f, 11.5f });
-		nave.setMatrixPosition(new int[] { 12, 1 });
-		objetos.add(nave);
+		//cria a nave
+		criaNave();
 
 		this.updateThread = new Thread(new Runnable() {
 			public void run() {
@@ -225,15 +227,18 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		// -ok
 
 		// 4- Movimento dos aliens
+		
 		// 5- CriaÁ„o dos blocos
+		
 		// 6- Tiro dos aliens
+		
 		// 7- DestruÁ„o dos blocos
 
 		// 8- Win: quando a nave elimina todos os aliens (n„o tiver mais 3 na matriz de
 		// objetos) ganhou!!!!
 		// 9- Game over: quando o alien atingir a nave com um tiro È game over
 
-		try {
+		try {						
 
 			gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
@@ -307,6 +312,27 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			}
 
 			gl.glFlush();
+			
+			
+//			this.updateThread2 = new Thread(new Runnable() {
+//				public void run() {
+//					try {
+//						for (;;) {
+//							float positionZ = 0.5f;
+//							int posAlien = 3;
+//							for (int i = 1; i<=3; i++) {
+//								criaAliens(i, "data/alien"+posAlien, positionZ);
+//								posAlien--;
+//								positionZ++;
+//							}
+//							Thread.sleep(5000L);
+//						}
+//					} catch (Exception localException) {
+//					}
+//				}
+//			});
+//
+//			this.updateThread2.start();
 
 		} catch (Exception ex) {
 			System.out.println("Erro: " + ex.getMessage() + " - StackTrace: " + ex.getStackTrace());
@@ -429,11 +455,20 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		// Aqui v„o ficar os atalhos para mudar de c‚mera, atirar, mover e etc..
 
 		ObjetoGrafico nave = objetos.get(objetos.size() - 1);
+		
+		//ObjetoGrafico alien3 = objetos.get(objetos.size() - 14);
+		//ObjetoGrafico alien3 = objetos.get(objetos.size() - 8);
+		ObjetoGrafico alien3 = objetos.get(objetos.size() - 2);
 
 		switch (e.getKeyCode()) {
 
 		// IMPORTANTE: ESTABELECER LIMITE PARA O MOVIMENTO
 		case KeyEvent.VK_RIGHT:
+
+			matrixObjetosCena[alien3.getMatrixPosition()[0] + 1][alien3.getMatrixPosition()[0]] = 0;
+			matrixObjetosCena[alien3.getMatrixPosition()[0]][alien3.getMatrixPosition()[0]] = 1;
+			alien3.getMatrixPosition()[0] = alien3.getMatrixPosition()[0] + 1;
+			alien3.getTranslate()[1] = alien3.getTranslate()[1] - 1;
 
 			if (matrixObjetosCena[nave.getMatrixPosition()[0]][nave.getMatrixPosition()[1] + 1] != 9) {
 
@@ -477,6 +512,25 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 			tiros.add(tiro);
 			break;
+			
+		case KeyEvent.VK_1:
+			 break;
+			 
+		case KeyEvent.VK_2:
+			 break;
+			 
+		case KeyEvent.VK_3:			
+			 break;
+			 
+		case KeyEvent.VK_4:
+			 break;
+			 
+		case KeyEvent.VK_5:
+			 break;
+			 
+		case KeyEvent.VK_6:
+			 break;
+			 
 		}
 	}
 

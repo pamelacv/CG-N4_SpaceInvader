@@ -15,8 +15,11 @@ public class Frame extends JFrame {
 
 	private GLCanvas canvasScreen;
 
-	private int widthScreen = 1000;
-	private int heightScreen = 800;
+//	private int widthScreen = 1000;
+//	private int heightScreen = 800;
+	
+	private int widthScreen = 800;
+	private int heightScreen = 600;	
 
 	public int getWidthScreen() {
 		return widthScreen;
