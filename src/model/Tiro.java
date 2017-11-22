@@ -3,19 +3,19 @@ package model;
 public class Tiro {
 
 	private ObjetoGrafico objeto;
-
 	private int linhaProgressoMatriz;
-
 	private int contadorTiros;
+	private boolean tiroAlien;
 
 	public Tiro() {
 
 	}
 
-	public Tiro(ObjetoGrafico objeto, int linhaProgressoMatriz, int contadorTiros) {
+	public Tiro(ObjetoGrafico objeto, int linhaProgressoMatriz, int contadorTiros, boolean isTiroAlien) {
 		this.objeto = objeto;
 		this.linhaProgressoMatriz = linhaProgressoMatriz;
 		this.contadorTiros = contadorTiros;
+		this.tiroAlien = isTiroAlien;
 	}
 
 	public ObjetoGrafico getObjeto() {
@@ -41,4 +41,12 @@ public class Tiro {
 	public void setContadorTiros(int contadorTiros) {
 		this.contadorTiros = contadorTiros;
 	}
+
+	public boolean isTiroAlien() {
+		return tiroAlien;
+	}
+
+	public void setTiroAlien(boolean tiroAlien) {
+		this.tiroAlien = tiroAlien;
+	}	
 }
