@@ -10,6 +10,7 @@ import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import javax.media.opengl.DebugGL;
 import javax.media.opengl.GL;
@@ -259,15 +260,15 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		// objetos) ganhou!!!!
 		// 9- Game over: quando o alien atingir a nave com um tiro é game over
 
-//		if (finalJogo) {
-//			if (ganhouJogo) {				
-//				//Fazer uma PAUSA
-//				System.out.println("Ganhou!");
-//			}else {
-//				System.out.println("Perdeu!");
-//			}
-//		}
-//		else {
+		if (finalJogo) {
+			if (ganhouJogo) {				
+				//Fazer uma PAUSA
+				System.out.println("Ganhou!");
+			}else {
+				System.out.println("Perdeu!");
+			}
+		}
+		else {
 			try {						
 
 				gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
@@ -276,8 +277,8 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 				gl.glLoadIdentity();
 				glu.gluLookAt(xEye, yEye, zEye, xCenter, yCenter, zCenter, 0.0f, 1.0f, 0.0f);
 
-				//finalJogo = true;
-				//ganhouJogo = true;
+				finalJogo = true;
+				ganhouJogo = true;
 				// Busca todos os objetos e imprime na tela
 				for (ObjetoGrafico obj : objetos) {
 
@@ -294,10 +295,28 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 					
 					//Valida se existe algum Alien na tela
 					if (matrixObjetosCena[obj.getMatrixPosition()[0] - 1][obj.getMatrixPosition()[1]] == 3) {
-						//finalJogo = false;
-						//ganhouJogo = false;
+						finalJogo = false;
+						ganhouJogo = false;
 					}
 				}
+				
+				//Tiro randomico dos Aliens - necessário alguns ajustes. Está realizando apenas para a primeira fileira
+//				Random gerador = new Random();
+//				int numT = gerador.nextInt(7);
+//				
+//				ObjetoGrafico alien = objetos.get(objetos.size() - numT);
+//
+//				ObjetoGrafico tiroAlien = new ObjetoGrafico();
+//				tiroAlien.setObjModelParser(new OBJModel("data/tiro", 0.5f, gl, true));
+//				tiroAlien.setScale(new float[] { 1.0f, 1.0f, 1.0f });
+//
+//				tiroAlien.setTranslate(new float[] { alien.getTranslate()[0], alien.getTranslate()[1], alien.getTranslate()[2] + 2 });
+//
+//				tiroAlien.setMatrixPosition(new int[] { alien.getMatrixPosition()[0], alien.getMatrixPosition()[1] });
+//
+//				Tiro tiroA = new Tiro(tiroAlien, 3, 2);
+//				tirosA.add(tiroA);
+								
 				
 				if (tirosA.size() > 0) {
 					for (Tiro tiro : tirosA) {
@@ -390,7 +409,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 				//System.out.println("Erro: " + ex.getMessage() + " - StackTrace: " + ex.getStackTrace());
 				ex.printStackTrace();
 			}			
-		//}
+		}
 
 	}
 
