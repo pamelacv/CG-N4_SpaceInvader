@@ -47,6 +47,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 	// private ObjetoGrafico tiroInicial = new ObjetoGrafico();
 
 	private List<Tiro> tiros = new LinkedList<>();
+	private List<Tiro> tirosA = new LinkedList<>();
 
 	private int[][] matrixObjetosCena = { 
 			 { 9, 9, 9, 9, 9, 9, 9, 9 }, { 9, 3, 3, 3, 3, 3, 3, 9 }, { 9, 3, 3, 3, 3, 3, 3, 9 },
@@ -167,13 +168,18 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 
 		//cria a nave
 		criaNave();
-
+		
+		
 		this.updateThread = new Thread(new Runnable() {
 			public void run() {
 				try {
 					for (;;) {
 						glDrawable.display();
 						Thread.sleep(200L);
+						if (ganhouJogo) {
+							
+						}
+							
 					}
 				} catch (Exception localException) {
 				}
@@ -181,6 +187,10 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 		});
 
 		this.updateThread.start();
+		
+//		if (ganhouJogo) {
+//			this.updateThread.stop();	
+//		}			
 	}
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -279,57 +289,74 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 						ganhouJogo = false;
 					}
 				}
+				
+				if (tirosA.size() > 0) {
+					for (Tiro tiroA : tirosA) {
+						if (matrixObjetosCena[tiroA.getObjeto().getMatrixPosition()[0] - 1][tiroA.getObjeto()
+								.getMatrixPosition()[1]] != 9) {
+							
+							tiroA.setContadorTiros(tiroA.getContadorTiros() - 1);
+							tiroA.setLinhaProgressoMatriz(tiroA.getLinhaProgressoMatriz() + 1);
+
+							tiroA.getObjeto().setMatrixPosition(new int[] { tiroA.getLinhaProgressoMatriz(), tiroA.getObjeto().getMatrixPosition()[1] });
+
+							if (matrixObjetosCena[tiroA.getObjeto().getMatrixPosition()[0]][tiroA.getObjeto().getMatrixPosition()[1]] == 1) {
+								// remove tiro da LinkedList
+								System.out.println("2 - Acertou nave");
+								System.out.println("posicao: " + tiroA.getObjeto().getMatrixPosition()[0] + "-" + tiroA.getObjeto().getMatrixPosition()[1]);
+								tirosA.remove(tiroA);
+
+								matrixObjetosCena[tiroA.getObjeto().getMatrixPosition()[0]][tiroA.getObjeto().getMatrixPosition()[1]] = 0;
+
+								for (ObjetoGrafico obj : objetos) {
+									if (obj.getMatrixPosition()[0] == tiroA.getObjeto().getMatrixPosition()[0] && 
+										obj.getMatrixPosition()[1] == tiroA.getObjeto().getMatrixPosition()[1]) {
+
+										obj.setVisible(false);
+									}
+								}
+							} else {
+								gl.glPushMatrix();
+
+								tiroA.getObjeto().setObjModelParser(new OBJModel("data/tiro", 0.5f, gl, true));
+
+								gl.glTranslated(tiroA.getObjeto().getTranslate()[0], tiroA.getObjeto().getTranslate()[1],
+										tiroA.getObjeto().getTranslate()[2] - tiroA.getContadorTiros());
+
+								tiroA.getObjeto().getObjModelParser().draw(gl);
+
+								gl.glPopMatrix();
+							}
+						}
+					}
+				}
 
 				// Verificações do tiro
 				if (tiros.size() > 0) {
-
 					for (Tiro tiro : tiros) {
-
 						if (matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0] - 1][tiro.getObjeto()
 								.getMatrixPosition()[1]] != 9) {
 
-							if (tiro.isTiroAlien()){
-								tiro.setContadorTiros(tiro.getContadorTiros() - 1);
-								tiro.setLinhaProgressoMatriz(tiro.getLinhaProgressoMatriz() + 1);								
-							}else {
-								tiro.setContadorTiros(tiro.getContadorTiros() + 1);
-								tiro.setLinhaProgressoMatriz(tiro.getLinhaProgressoMatriz() - 1);	
-							}							
-														
-							tiro.getObjeto().setMatrixPosition(
-									new int[] { tiro.getLinhaProgressoMatriz(), tiro.getObjeto().getMatrixPosition()[1] });
+							tiro.setContadorTiros(tiro.getContadorTiros() + 1);
+							tiro.setLinhaProgressoMatriz(tiro.getLinhaProgressoMatriz() - 1);	
+						
+							tiro.getObjeto().setMatrixPosition(new int[] { tiro.getLinhaProgressoMatriz(), tiro.getObjeto().getMatrixPosition()[1] });
 
 							if (matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0]][tiro.getObjeto() .getMatrixPosition()[1]] == 3) {
 								// remove tiro da LinkedList
 								System.out.println("1 - Acertou alien");
+								System.out.println("posicao: " + tiro.getObjeto().getMatrixPosition()[0] + "-" + tiro.getObjeto().getMatrixPosition()[1]);
 								tiros.remove(tiro);
 
-								matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0]][tiro.getObjeto()
-										.getMatrixPosition()[1]] = 0;
+								matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0]][tiro.getObjeto().getMatrixPosition()[1]] = 0;
 
 								for (ObjetoGrafico obj : objetos) {
-
-									if (obj.getMatrixPosition()[0] == tiro.getObjeto().getMatrixPosition()[0]
-											&& obj.getMatrixPosition()[1] == tiro.getObjeto().getMatrixPosition()[1]) {
+									if (obj.getMatrixPosition()[0] == tiro.getObjeto().getMatrixPosition()[0] && 
+										obj.getMatrixPosition()[1] == tiro.getObjeto().getMatrixPosition()[1]) {
 
 										obj.setVisible(false);
 									}
-								}						
-							} else if (matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0]][tiro.getObjeto().getMatrixPosition()[1]] == 1) {
-								System.out.println("2 - Acertou nave");
-								tiros.remove(tiro);
-
-								matrixObjetosCena[tiro.getObjeto().getMatrixPosition()[0]][tiro.getObjeto()
-										.getMatrixPosition()[1]] = 0;
-
-//								for (ObjetoGrafico obj : objetos) {
-//
-//									if (obj.getMatrixPosition()[0] == tiro.getObjeto().getMatrixPosition()[0]
-//											&& obj.getMatrixPosition()[1] == tiro.getObjeto().getMatrixPosition()[1]) {
-//
-//										obj.setVisible(false);
-//									}
-//								}
+								}
 							} else {
 
 								gl.glPushMatrix();
@@ -524,12 +551,11 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			tiroInicial.setObjModelParser(new OBJModel("data/tiro", 0.5f, gl, true));
 			tiroInicial.setScale(new float[] { 1.0f, 1.0f, 1.0f });
 
-			tiroInicial.setTranslate(
-					new float[] { nave.getTranslate()[0], nave.getTranslate()[1], nave.getTranslate()[2] });
+			tiroInicial.setTranslate( new float[] { nave.getTranslate()[0], nave.getTranslate()[1], nave.getTranslate()[2] });
 
 			tiroInicial.setMatrixPosition(new int[] { nave.getMatrixPosition()[0], nave.getMatrixPosition()[1] });
 
-			Tiro tiro = new Tiro(tiroInicial, 12, 1, false);
+			Tiro tiro = new Tiro(tiroInicial, 12, 1);
 
 			tiros.add(tiro);
 			break;
@@ -539,14 +565,14 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			tiroAlien1.setObjModelParser(new OBJModel("data/tiro", 0.5f, gl, true));
 			tiroAlien1.setScale(new float[] { 1.0f, 1.0f, 1.0f });
 
-			tiroAlien1.setTranslate(
-					new float[] { alien1.getTranslate()[0], alien1.getTranslate()[1], alien1.getTranslate()[2] });
+			//tiroAlien1.setTranslate( new float[] { alien1.getTranslate()[0], alien1.getTranslate()[1], alien1.getTranslate()[2]});
+			tiroAlien1.setTranslate( new float[] { alien1.getTranslate()[0], alien1.getTranslate()[1], alien1.getTranslate()[2] + 2});
 
 			tiroAlien1.setMatrixPosition(new int[] { alien1.getMatrixPosition()[0], alien1.getMatrixPosition()[1] });
 
-			Tiro tiro1 = new Tiro(tiroAlien1, 4, 1, true);
+			Tiro tiro1 = new Tiro(tiroAlien1, 4, 1);
 
-			tiros.add(tiro1);
+			tirosA.add(tiro1);
 			break;
 
 		case KeyEvent.VK_2:
@@ -554,29 +580,16 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 			tiroAlien2.setObjModelParser(new OBJModel("data/tiro", 0.5f, gl, true));
 			tiroAlien2.setScale(new float[] { 1.0f, 1.0f, 1.0f });
 
-			tiroAlien2.setTranslate(
-					new float[] { alien2.getTranslate()[0], alien2.getTranslate()[1], alien2.getTranslate()[2] });
+			tiroAlien2.setTranslate( new float[] { alien2.getTranslate()[0], alien2.getTranslate()[1], alien2.getTranslate()[2] + 2});
 
 			tiroAlien2.setMatrixPosition(new int[] { alien2.getMatrixPosition()[0], alien2.getMatrixPosition()[1] });
 
-			Tiro tiro2 = new Tiro(tiroAlien2, 5, 1, true);
+			Tiro tiro2 = new Tiro(tiroAlien2, 5, 1);
 
-			tiros.add(tiro2);
+			tirosA.add(tiro2);
 			break;
 
-		case KeyEvent.VK_3:
-			ObjetoGrafico tiroAlien3 = new ObjetoGrafico();
-			tiroAlien3.setObjModelParser(new OBJModel("data/tiro", 0.5f, gl, true));
-			tiroAlien3.setScale(new float[] { 1.0f, 1.0f, 1.0f });
-
-			tiroAlien3.setTranslate(
-					new float[] { alien3.getTranslate()[0], alien3.getTranslate()[1], alien3.getTranslate()[2] });
-
-			tiroAlien3.setMatrixPosition(new int[] { alien3.getMatrixPosition()[0], alien3.getMatrixPosition()[1] });
-
-			Tiro tiro3 = new Tiro(tiroAlien3, 6, 1, true);
-
-			tiros.add(tiro3);
+		case KeyEvent.VK_3:			
 			break;
 
 		case KeyEvent.VK_4:
