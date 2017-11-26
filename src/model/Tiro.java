@@ -11,11 +11,10 @@ public class Tiro {
 
 	}
 
-	public Tiro(ObjetoGrafico objeto, int linhaProgressoMatriz, int contadorTiros, boolean isTiroAlien) {
+	public Tiro(ObjetoGrafico objeto, int linhaProgressoMatriz, int contadorTiros) {
 		this.objeto = objeto;
 		this.linhaProgressoMatriz = linhaProgressoMatriz;
 		this.contadorTiros = contadorTiros;
-		this.tiroAlien = isTiroAlien;
 	}
 
 	public ObjetoGrafico getObjeto() {
