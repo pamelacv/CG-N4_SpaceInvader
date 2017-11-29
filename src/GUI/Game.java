@@ -324,7 +324,7 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 				glu.gluLookAt(xEye, yEye, zEye, xCenter, yCenter, zCenter, 0.0f, 1.0f, 0.0f);
 
 				contadorGame++;
-				if (contadorGame % 20 == 0) {
+				if (contadorGame % 2 == 0) {
 					contadorMovimento++;
 				}
 
@@ -333,9 +333,10 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 					cAlienTempo++;
 				}
 				
-				finalJogo = true;
-				ganhouJogo = true;
+				//finalJogo = true;
+				//ganhouJogo = true;
 				// Busca todos os objetos e imprime na tela
+				int linhaObjeto;
 				for (ObjetoGrafico obj : objetos) {
 					if (obj.isVisible()) {
 //						gl.glPushMatrix();
@@ -352,8 +353,16 @@ public class Game implements GLEventListener, KeyListener, MouseListener, MouseM
 						
 						
 						//Verificar com Pamela para atualizar a Matriz
-						//obj.setMatrixPosition(new int[] { obj.getMatrixPosition()[0], obj.getMatrixPosition()[1] });						
-						//matrixObjetosCena[obj.getMatrixPosition()[0]][obj.getMatrixPosition()[1]] = 0;
+						linhaObjeto = obj.getMatrixPosition()[0];
+
+						//if (linhaObjeto == )
+						
+						matrixObjetosCena[obj.getMatrixPosition()[0]][obj.getMatrixPosition()[1]] = 0;
+						matrixObjetosCena[obj.getMatrixPosition()[0] + contadorMovimento][obj.getMatrixPosition()[1]] = 3;
+						
+						obj.setMatrixPosition(new int[] { obj.getMatrixPosition()[0] + contadorMovimento, obj.getMatrixPosition()[1] });	
+						
+						
 					}
 
 					// Valida se existe algum Alien na tela
